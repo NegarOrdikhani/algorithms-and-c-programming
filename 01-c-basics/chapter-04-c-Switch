@@ -1,0 +1,148 @@
+// fig04_05.c
+// Counting letter grades with switch.
+#include <stdio.h>
+
+int main(void)
+{
+    int aCount = 0;
+    int bCount = 0;
+    int cCount = 0;
+    int dCount = 0;
+    int fCount = 0;
+    puts("Enter the letter grades.");
+    puts("Enter the EOF character to end input.");
+    int grade = 0; // one grade
+
+    // loop until user types end-of-file key sequence
+    while ((grade = getchar()) != EOF)
+    {
+
+        // determine which grade was input
+        switch (grade)
+        {         // switch nested in while
+        case 'A': // grade was uppercase A
+        case 'a': // or lowercase a
+            ++aCount;
+            break; // necessary to exit switch
+        case 'B':  // grade was uppercase B
+        case 'b':  // or lowercase b
+            ++bCount;
+            break;
+        case 'C': // grade was uppercase C
+        case 'c': // or lowercase c
+            ++cCount;
+            break;
+
+        case 'D': // grade was uppercase D
+        case 'd': // or lowercase d
+            ++dCount;
+            break;
+        case 'F': // grade was uppercase F
+        case 'f': // or lowercase f
+            ++fCount;
+            break;
+        case '\n': // ignore newlines,
+        case '\t': // tabs,
+        case ' ':  // and spaces in input
+            break;
+        default: // catch all other characters
+            printf("%s", "Incorrect letter grade entered.");
+            puts(" Enter a new grade.");
+            break; // optional; will exit switch anyway
+        } // end switch
+    } // end while
+
+    // output summary of results
+    puts("\nTotals for each letter grade are:");
+    printf("A: %d\n", aCount);
+    printf("B: %d\n", bCount);
+    printf("C: %d\n", cCount);
+    printf("D: %d\n", dCount);
+    printf("F: %d\n", fCount);
+}
+
+
+// fig04_05.c
+// شمارش تعداد نمرات حرفی با استفاده از دستور switch
+
+#include <stdio.h> // کتابخانه ورودی و خروجی استاندارد
+
+// شروع اجرای برنامه
+int main(void)
+{
+    // تعریف و مقداردهی اولیه شمارنده‌های هر نمره
+    int aCount = 0; // تعداد نمرات A
+    int bCount = 0; // تعداد نمرات B
+    int cCount = 0; // تعداد نمرات C
+    int dCount = 0; // تعداد نمرات D
+    int fCount = 0; // تعداد نمرات F
+
+    // نمایش راهنمای ورود نمرات و پایان دادن به ورودی
+    puts("Enter the letter grades.");
+    puts("Enter the EOF character to end input.");
+
+    int grade = 0; // ذخیره کاراکتر ورودی؛ int برای امکان تشخیص EOF
+
+    // خواندن کاراکترها تا زمانی که ورودی به EOF نرسیده است
+    // getchar() یک کاراکتر می‌خواند و آن را در grade ذخیره می‌کند
+    // اگر مقدار خوانده‌شده EOF باشد، شرط نادرست و حلقه تمام می‌شود
+    while ((grade = getchar()) != EOF)
+    {
+        // بررسی کاراکتر ورودی برای تشخیص نوع نمره
+        switch (grade)
+        {
+        // اگر کاراکتر A بزرگ یا a کوچک باشد
+        // هر دو case به یک دستور مشترک می‌رسند
+        case 'A':
+        case 'a':
+            ++aCount; // افزایش تعداد نمرات A به‌اندازه یک
+            break;    // خروج از switch و جلوگیری از اجرای caseهای بعدی
+
+        // اگر کاراکتر B بزرگ یا b کوچک باشد
+        case 'B':
+        case 'b':
+            ++bCount; // افزایش تعداد نمرات B
+            break;
+
+        // اگر کاراکتر C بزرگ یا c کوچک باشد
+        case 'C':
+        case 'c':
+            ++cCount; // افزایش تعداد نمرات C
+            break;
+
+        // اگر کاراکتر D بزرگ یا d کوچک باشد
+        case 'D':
+        case 'd':
+            ++dCount; // افزایش تعداد نمرات D
+            break;
+
+        // اگر کاراکتر F بزرگ یا f کوچک باشد
+        case 'F':
+        case 'f':
+            ++fCount; // افزایش تعداد نمرات F
+            break;
+
+        // نادیده گرفتن کاراکترهای فاصله و جداکننده
+        case '\n': // خط جدید؛ معمولاً حاصل فشردن Enter
+        case '\t': // کاراکتر Tab
+        case ' ':  // فاصله معمولی
+            break; // هیچ شمارنده‌ای افزایش پیدا نمی‌کند
+
+        // اگر ورودی هیچ‌کدام از موارد بالا نباشد
+        default:
+            printf("%s", "Incorrect letter grade entered.");
+            puts(" Enter a new grade.");
+            // نمایش پیام خطا؛ حلقه ادامه پیدا می‌کند
+            break; // در اینجا اختیاری است، چون انتهای switch است
+        }
+    }
+
+    // پس از دریافت EOF، حلقه تمام شده و نتایج نمایش داده می‌شوند
+    puts("\nTotals for each letter grade are:");
+
+    printf("A: %d\n", aCount); // نمایش تعداد A
+    printf("B: %d\n", bCount); // نمایش تعداد B
+    printf("C: %d\n", cCount); // نمایش تعداد C
+    printf("D: %d\n", dCount); // نمایش تعداد D
+    printf("F: %d\n", fCount); // نمایش تعداد F
+}
