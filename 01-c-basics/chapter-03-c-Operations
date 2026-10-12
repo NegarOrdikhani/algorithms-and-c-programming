@@ -66,6 +66,4 @@
       puts("No grades were entered");
    } // end else
  } // end function main
-
-
- //
+ 
