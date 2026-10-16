@@ -1,0 +1,308 @@
+// fig05_01.c
+// Creating and using a function.
+// ایجاد و استفاده از یک تابع
+
+#include <stdio.h>
+
+// function prototype
+// نمونه اولیه تابع square
+// اعلام می‌کند که تابع یک int می‌گیرد و یک int برمی‌گرداند
+int square(int number);
+
+int main(void) {
+   // loop 10 times and calculate and output square of x each time
+   // حلقه ۱۰ بار اجرا می‌شود و مربع اعداد ۱ تا ۱۰ را نمایش می‌دهد
+   for (int x = 1; x <= 10; ++x) {
+
+      // function call
+      // فراخوانی تابع square با ارسال x به‌عنوان آرگومان
+      // مقدار برگشتی تابع با %d نمایش داده می‌شود
+      printf("%d  ", square(x));
+   }
+
+   puts(""); // رفتن به خط بعد
+
+}
+
+// square function definition returns the square of its parameter
+// تعریف تابع square؛ مربع پارامتر خود را برمی‌گرداند
+int square(int number) {
+
+   // number is a copy of the function's argument
+   // number پارامتر تابع است و مقدار آرگومان به آن کپی می‌شود
+
+   // returns square of number as an int
+   // محاسبه مربع number و بازگرداندن نتیجه از نوع int
+   return number * number;
+}
+
+
+
+
+// fig05_02.c
+// Finding the maximum of three integers.
+// پیدا کردن بزرگ‌ترین عدد از بین سه عدد صحیح
+
+#include <stdio.h>
+
+// function prototype
+// نمونه اولیه تابع maximum
+// سه پارامتر از نوع int دریافت می‌کند و یک int برمی‌گرداند
+int maximum(int x, int y, int z);
+
+int main(void) {
+   // تعریف و مقداردهی اولیه سه متغیر برای دریافت ورودی کاربر
+   int number1 = 0; // first integer entered by the user
+   int number2 = 0; // second integer entered by the user
+   int number3 = 0; // third integer entered by the user
+
+   // درخواست ورود سه عدد صحیح
+   printf("%s", "Enter three integers: ");
+
+   // خواندن سه عدد و ذخیره آن‌ها در متغیرهای مربوطه
+   // & آدرس هر متغیر را به scanf می‌دهد
+   scanf("%d%d%d", &number1, &number2, &number3);
+
+   // number1, number2 and number3 are arguments
+   // to the maximum function call
+   // سه متغیر زیر آرگومان‌های ارسالی به تابع maximum هستند
+   // مقدار بازگشتی تابع با %d نمایش داده می‌شود
+   printf("Maximum is: %d\n",
+          maximum(number1, number2, number3));
+}
+
+// Function maximum definition
+// تعریف تابع maximum برای یافتن بزرگ‌ترین عدد
+int maximum(int x, int y, int z) {
+
+   // assume x is largest
+   // در ابتدا فرض می‌کنیم x بزرگ‌ترین عدد است
+   int max = x;
+
+   // if y is larger than max
+   // اگر y از بزرگ‌ترین مقدار فعلی بیشتر باشد
+   if (y > max) {
+
+      // assign y to max
+      // مقدار y به‌عنوان بزرگ‌ترین مقدار فعلی ثبت می‌شود
+      max = y;
+   }
+
+   // if z is larger than max
+   // اگر z از بزرگ‌ترین مقدار فعلی بیشتر باشد
+   if (z > max) {
+
+      // assign z to max
+      // مقدار z به‌عنوان بزرگ‌ترین مقدار فعلی ثبت می‌شود
+      max = z;
+   }
+
+   // max is largest value
+   // بازگرداندن بزرگ‌ترین مقدار پیدا شده
+   return max;
+}
+
+
+
+// fig05_03.c
+// Demonstrating the function-call stack
+// and stack frames using a function square.
+// نمایش پشته فراخوانی توابع و قاب‌های پشته با تابع square
+
+#include <stdio.h>
+
+// prototype for function square
+// نمونه اولیه تابع square
+int square(int x);
+
+int main(void) {
+   // value to square (local variable in main)
+   // متغیر محلی main که مقدار آن قرار است به توان دو برسد
+   int a = 10;
+
+   // display a squared
+   // تابع square با آرگومان a فراخوانی می‌شود
+   // مقدار برگشتی تابع در کنار مقدار a نمایش داده می‌شود
+   printf("%d squared: %d\n", a, square(a));
+}
+
+// returns the square of an integer
+// تعریف تابع square؛ مربع یک عدد صحیح را برمی‌گرداند
+int square(int x) {
+
+   // x is a local variable
+   // x پارامتر تابع و متعلق به این فراخوانی است
+   // مقدار a به x کپی می‌شود؛ تغییر x به‌خودی‌خود a را تغییر نمی‌دهد
+
+   // calculate square and return result
+   // محاسبه مربع x و بازگرداندن نتیجه
+   return x * x;
+}
+
+
+
+
+// fig05_06.c
+// Randomizing the die-rolling program.
+// تصادفی‌سازی برنامه پرتاب تاس
+
+#include <stdio.h>
+#include <stdlib.h> // شامل اعلان rand و srand
+
+int main(void) {
+
+   // درخواست عدد اولیه برای مولد اعداد شبه‌تصادفی
+   printf("%s", "Enter seed: ");
+
+   // number used to seed the random-number generator
+   // seed مقدار اولیه مولد اعداد شبه‌تصادفی است
+   int seed = 0;
+
+   // خواندن seed از ورودی کاربر
+   scanf("%d", &seed);
+
+   // seed the random-number generator
+   // مقداردهی اولیه مولد اعداد شبه‌تصادفی
+   // seed یکسان معمولاً دنباله یکسانی از اعداد تولید می‌کند
+   srand(seed);
+
+   // حلقه ۱۰ بار اجرا می‌شود
+   for (int i = 1; i <= 10; ++i) {
+
+      // display random die value
+      // rand() یک عدد شبه‌تصادفی تولید می‌کند
+      // % 6 باقیمانده‌ای بین ۰ تا ۵ می‌دهد
+      // افزودن ۱، مقدار را به بازه ۱ تا ۶ منتقل می‌کند
+      // این مقدار مانند نتیجه پرتاب یک تاس نمایش داده می‌شود
+      printf("%d  ", 1 + (rand() % 6));
+   }
+
+   puts(""); // رفتن به خط بعد
+}
+
+
+
+
+
+// fig05_07.c
+// Simulating the game of craps.
+// شبیه‌سازی بازی Craps
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h> // contains prototype for function time
+                   // شامل اعلان تابع time برای دریافت زمان فعلی
+
+// تعریف ثابت‌های نام‌دار برای وضعیت بازی
+// CONTINUE: بازی ادامه دارد
+// WON: بازیکن برنده شده است
+// LOST: بازیکن باخته است
+enum Status {CONTINUE, WON, LOST};
+
+// rollDice function prototype
+// نمونه اولیه تابع rollDice
+// دو تاس را شبیه‌سازی می‌کند و مجموع آن‌ها را برمی‌گرداند
+int rollDice(void);
+
+int main(void)
+{
+   // randomize based on current time
+   // مقداردهی اولیه مولد اعداد شبه‌تصادفی با زمان فعلی
+   // time(NULL) زمان فعلی را برمی‌گرداند
+   // تبدیل زمان به seed کمک می‌کند دنباله در اجراهای مختلف تغییر کند
+   srand(time(NULL));
+
+   // player must make this point to win
+   // مجموع پرتاب اول که بازیکن باید دوباره به آن برسد
+   int myPoint = 0;
+
+   // وضعیت اولیه بازی: ادامه دارد
+   // متغیر gameStatus فقط یکی از وضعیت‌های تعریف‌شده را نگه می‌دارد
+   enum Status gameStatus = CONTINUE;
+
+   // first roll of the dice
+   // فراخوانی تابع برای پرتاب اول دو تاس و دریافت مجموع آن‌ها
+   int sum = rollDice();
+
+   // determine game status based on sum of dice
+   // تعیین وضعیت بازی بر اساس مجموع پرتاب اول
+   switch(sum) {
+
+      // win on first roll
+      // اگر مجموع ۷ یا ۱۱ باشد، بازیکن فوراً برنده می‌شود
+      case 7:  // 7 is a winner
+      case 11: // 11 is a winner
+         gameStatus = WON;
+         break;
+
+      // lose on first roll
+      // اگر مجموع ۲، ۳ یا ۱۲ باشد، بازیکن فوراً می‌بازد
+      case 2:  // 2 is a loser
+      case 3:  // 3 is a loser
+      case 12: // 12 is a loser
+         gameStatus = LOST;
+         break;
+
+      // remember point
+      // سایر مجموع‌ها به‌عنوان point ذخیره می‌شوند
+      default:
+         gameStatus = CONTINUE; // بازی باید ادامه پیدا کند
+         myPoint = sum; // ذخیره مجموع پرتاب اول به‌عنوان point
+         printf("Point is %d\n", myPoint);
+         break; // در اینجا اختیاری است؛ انتهای switch است
+   }
+
+   // while game not complete
+   // تا زمانی که وضعیت بازی CONTINUE است، پرتاب تاس تکرار می‌شود
+   while (CONTINUE == gameStatus) {
+
+      // roll dice again
+      // اجرای دوباره تابع rollDice و دریافت مجموع جدید
+      sum = rollDice();
+
+      // determine game status
+      // اگر مجموع جدید با point برابر باشد، بازیکن برنده می‌شود
+      if (sum == myPoint) {
+         gameStatus = WON;
+      }
+
+      // اگر مجموع ۷ باشد، بازیکن می‌بازد
+      // این شرط فقط وقتی بررسی می‌شود که شرط قبلی برقرار نباشد
+      else if (7 == sum) {
+         gameStatus = LOST;
+      }
+
+      // اگر هیچ‌کدام از دو شرط برقرار نباشد،
+      // gameStatus همچنان CONTINUE می‌ماند و حلقه تکرار می‌شود
+   }
+
+   // display won or lost message
+   // پس از پایان بازی، نتیجه نمایش داده می‌شود
+   if (WON == gameStatus) {
+      puts("Player wins");
+   }
+   else {
+      puts("Player loses");
+   }
+}
+
+// roll dice, calculate sum and display results
+// تعریف تابع rollDice برای پرتاب دو تاس و محاسبه مجموع آن‌ها
+int rollDice(void) {
+
+   // انتخاب مقدار شبه‌تصادفی بین ۱ تا ۶ برای تاس اول
+   int die1 = 1 + (rand() % 6);
+
+   // انتخاب مقدار شبه‌تصادفی بین ۱ تا ۶ برای تاس دوم
+   int die2 = 1 + (rand() % 6);
+
+   // display results of this roll
+   // نمایش نتیجه هر دو تاس و مجموع آن‌ها
+   printf("Player rolled %d + %d = %d\n",
+          die1, die2, die1 + die2);
+
+   // return sum of dice
+   // برگرداندن مجموع دو تاس به تابع فراخواننده
+   return die1 + die2;
+}
+
