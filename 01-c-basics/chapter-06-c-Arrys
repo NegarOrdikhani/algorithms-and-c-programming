@@ -1,0 +1,212 @@
+// fig06_01.c
+// Initializing the elements of an array to zeros.
+// مقداردهی تمام عناصر یک آرایه با عدد صفر
+
+#include <stdio.h>
+
+// function main begins program execution
+// تابع main نقطه شروع اجرای برنامه است
+int main(void) {
+
+    // n is an array of five integers
+    // تعریف آرایه n با 5 عنصر از نوع int
+    // اندیس عناصر آرایه از 0 تا 4 است
+    int n[5];
+
+    // set elements of array n to 0
+    // مقداردهی تمام عناصر آرایه n با صفر
+    for (size_t i = 0; i < 5; ++i) {
+
+        // set element at location i to 0
+        // قرار دادن مقدار صفر در عنصر دارای اندیس i
+        n[i] = 0;
+    }
+
+    // چاپ عنوان ستون‌های جدول
+    // %s برای چاپ رشته و %8s برای چاپ رشته با عرض 8 کاراکتر است
+    printf("%s%8s\n", "Element", "Value");
+
+    // output contents of array n in tabular format
+    // نمایش اندیس و مقدار هر عنصر آرایه به شکل جدول
+    for (size_t i = 0; i < 5; ++i) {
+
+        // %7zu برای چاپ size_t با عرض 7 کاراکتر
+        // %8d برای چاپ عدد صحیح با عرض 8 کاراکتر
+        printf("%7zu%8d\n", i, n[i]);
+    }
+
+    // پایان موفق اجرای برنامه
+    return 0;
+}
+
+
+
+// fig06_03.c
+// Initializing the elements of array s to the even integers from 2 to 10.
+// مقداردهی عناصر آرایه s با اعداد زوج از 2 تا 10
+
+#include <stdio.h>
+
+// maximum size of array
+// تعریف ثابت نمادین برای اندازه آرایه
+#define SIZE 5
+
+// function main begins program execution
+// تابع main نقطه شروع اجرای برنامه است
+int main(void) {
+
+    // symbolic constant SIZE can be used to specify array size
+    // استفاده از ثابت نمادین SIZE برای تعیین اندازه آرایه
+
+    // array s has SIZE elements
+    // تعریف آرایه s با 5 عنصر
+    // {0} باعث می‌شود تمام عناصر آرایه در ابتدا صفر شوند
+    int s[SIZE] = {0};
+
+    // set the values
+    // مقداردهی عناصر آرایه با اعداد زوج
+    for (size_t j = 0; j < SIZE; ++j) {
+
+        // فرمول تولید اعداد زوج از 2 تا 10
+        // j = 0  ->  2 + 2 * 0 = 2
+        // j = 1  ->  2 + 2 * 1 = 4
+        // j = 2  ->  2 + 2 * 2 = 6
+        // j = 3  ->  2 + 2 * 3 = 8
+        // j = 4  ->  2 + 2 * 4 = 10
+        s[j] = 2 + 2 * j;
+    }
+
+    // چاپ عنوان ستون‌های جدول
+    printf("%s%8s\n", "Element", "Value");
+
+    // output contents of array s in tabular format
+    // نمایش اندیس و مقدار هر عنصر آرایه به شکل جدول
+    for (size_t j = 0; j < SIZE; ++j) {
+
+        // چاپ اندیس عنصر و مقدار ذخیره‌شده در آن
+        printf("%7zu%8d\n", j, s[j]);
+    }
+
+    // پایان موفق اجرای برنامه
+    return 0;
+}
+
+
+
+
+ // fig06_09.c
+// Static arrays are initialized to zero if not explicitly initialized.
+// آرایه‌های static در صورت نداشتن مقدار اولیه، با صفر مقداردهی می‌شوند
+
+#include <stdio.h>
+
+// function prototypes
+// معرفی اولیه توابع به کامپایلر
+void staticArrayInit(void);
+void automaticArrayInit(void);
+
+// function main begins program execution
+// تابع main نقطه شروع اجرای برنامه است
+int main(void) {
+
+    // First call to each function
+    // اجرای اول هر دو تابع
+    puts("First call to each function:");
+
+    // فراخوانی تابع دارای آرایه static
+    staticArrayInit();
+
+    // فراخوانی تابع دارای آرایه automatic
+    automaticArrayInit();
+
+    // Second call to each function
+    // اجرای دوم هر دو تابع
+    puts("\n\nSecond call to each function:");
+
+    // اجرای دوم تابع static
+    // مقدارهای قبلی آرایه حفظ شده‌اند
+    staticArrayInit();
+
+    // اجرای دوم تابع automatic
+    // آرایه دوباره با مقادیر اولیه ساخته می‌شود
+    automaticArrayInit();
+
+    // چاپ یک خط خالی در انتهای خروجی
+    puts("");
+
+    // پایان موفق اجرای برنامه
+    return 0;
+}
+
+
+// function to demonstrate a static local array
+// تابعی برای نمایش رفتار آرایه محلی static
+void staticArrayInit(void) {
+
+    // initializes elements to 0 before the function is called
+    // تعریف آرایه محلی static با 3 عنصر
+    // چون مقدار اولیه مشخص نشده، عناصر به صورت خودکار صفر می‌شوند
+    // طول عمر آرایه برابر با کل اجرای برنامه است
+    // مقدار آرایه بین فراخوانی‌های تابع حفظ می‌شود
+    static int array1[3];
+
+    // نمایش مقادیر آرایه هنگام ورود به تابع
+    puts("\nValues on entering staticArrayInit:");
+
+    // output contents of array1
+    // نمایش عناصر آرایه array1
+    for (size_t i = 0; i < 3; ++i) {
+
+        // چاپ اندیس و مقدار فعلی عنصر
+        printf("array1[%zu] = %d  ", i, array1[i]);
+    }
+
+    // نمایش مقادیر آرایه پس از تغییر
+    puts("\nValues on exiting staticArrayInit:");
+
+    // modify and output contents of array1
+    // افزایش مقدار هر عنصر به اندازه 5 و نمایش مقدار جدید
+    for (size_t i = 0; i < 3; ++i) {
+
+        // array1[i] += 5:
+        // ابتدا 5 واحد به مقدار عنصر اضافه می‌کند
+        // سپس مقدار جدید را در همان عنصر ذخیره می‌کند
+        // در نهایت مقدار جدید را به printf می‌دهد
+        printf("array1[%zu] = %d  ", i, array1[i] += 5);
+    }
+}
+
+
+// function to demonstrate an automatic local array
+// تابعی برای نمایش رفتار آرایه محلی automatic
+void automaticArrayInit(void) {
+
+    // initializes elements each time function is called
+    // تعریف آرایه محلی automatic با 3 عنصر
+    // در هر بار فراخوانی تابع، آرایه با مقادیر 1، 2 و 3 مقداردهی می‌شود
+    // طول عمر آرایه فقط تا پایان همان فراخوانی تابع است
+    int array2[3] = {1, 2, 3};
+
+    // نمایش مقادیر آرایه هنگام ورود به تابع
+    puts("\n\nValues on entering automaticArrayInit:");
+
+    // output contents of array2
+    // نمایش عناصر آرایه array2
+    for (size_t i = 0; i < 3; ++i) {
+
+        // چاپ اندیس و مقدار فعلی عنصر
+        printf("array2[%zu] = %d  ", i, array2[i]);
+    }
+
+    // نمایش مقادیر آرایه پس از تغییر
+    puts("\nValues on exiting automaticArrayInit:");
+
+    // modify and output contents of array2
+    // افزایش مقدار هر عنصر به اندازه 5 و نمایش مقدار جدید
+    for (size_t i = 0; i < 3; ++i) {
+
+        // مقدار هر عنصر 5 واحد افزایش پیدا می‌کند
+        // تغییرات این آرایه بین فراخوانی‌های تابع باقی نمی‌مانند
+        printf("array2[%zu] = %d  ", i, array2[i] += 5);
+    }
+}
