@@ -1,0 +1,186 @@
+// fig06_12.c
+// مرتب‌سازی عناصر یک آرایه به ترتیب صعودی با استفاده از Bubble Sort
+
+#include <stdio.h>  // برای استفاده از printf و puts
+
+#define SIZE 10     // تعریف تعداد عناصر آرایه
+
+// تابع main اجرای برنامه را آغاز می‌کند
+int main(void) {
+
+   // تعریف آرایه‌ای با 10 عنصر و مقداردهی اولیه آن‌ها
+   int a[SIZE] = {2, 6, 4, 8, 10, 12, 89, 68, 45, 37};
+
+   // نمایش پیام قبل از مرتب‌سازی
+   puts("Data items in original order");
+
+   // چاپ عناصر آرایه در ترتیب اولیه
+   for (size_t i = 0; i < SIZE; ++i) {
+      printf("%4d", a[i]);  // چاپ هر عنصر با عرض حداقل 4 کاراکتر
+   }
+
+   // -------------------- مرتب‌سازی حبابی --------------------
+
+   // حلقه بیرونی تعداد دفعات عبور از آرایه را کنترل می‌کند
+   // در هر عبور، یک عنصر بزرگ‌تر به سمت انتهای آرایه حرکت می‌کند
+   for (int pass = 1; pass < SIZE; ++pass) {
+
+      // حلقه داخلی مقایسه عناصر مجاور را در هر عبور انجام می‌دهد
+      for (size_t i = 0; i < SIZE - 1; ++i) {
+
+         // مقایسه دو عنصر کنار هم
+         // اگر عنصر سمت چپ بزرگ‌تر باشد، باید جای آن‌ها عوض شود
+         if (a[i] > a[i + 1]) {
+
+            // نگهداری موقت مقدار عنصر سمت چپ
+            // تا هنگام جابه‌جایی مقدار آن از بین نرود
+            int hold = a[i];
+
+            // انتقال عنصر سمت راست به خانه سمت چپ
+            a[i] = a[i + 1];
+
+            // قرار دادن مقدار قبلی عنصر سمت چپ در خانه سمت راست
+            a[i + 1] = hold;
+         }
+      }
+   }
+
+   // نمایش پیام بعد از مرتب‌سازی
+   puts("\nData items in ascending order");
+
+   // چاپ عناصر آرایه پس از مرتب‌سازی
+   for (size_t i = 0; i < SIZE; ++i) {
+      printf("%4d", a[i]);  // نمایش هر عنصر مرتب‌شده
+   }
+
+   // چاپ خط جدید در انتهای خروجی
+   puts("");
+
+} // پایان تابع main
+
+
+
+
+
+// merge_sort.c
+// مرتب‌سازی آرایه با استفاده از الگوریتم Merge Sort
+
+#include <stdio.h>
+
+// تابع ادغام دو نیمه‌ی مرتب‌شده‌ی آرایه
+void merge(int array[], int left, int middle, int right) {
+
+    // تعداد عناصر نیمه‌ی چپ و نیمه‌ی راست
+    int n1 = middle - left + 1;
+    int n2 = right - middle;
+
+    // آرایه‌های موقت برای نگهداری دو نیمه
+    int leftArray[n1];
+    int rightArray[n2];
+
+    // کپی کردن عناصر نیمه‌ی چپ در آرایه‌ی موقت
+    for (int i = 0; i < n1; ++i) {
+        leftArray[i] = array[left + i];
+    }
+
+    // کپی کردن عناصر نیمه‌ی راست در آرایه‌ی موقت
+    for (int j = 0; j < n2; ++j) {
+        rightArray[j] = array[middle + 1 + j];
+    }
+
+    // اندیس‌های پیمایش دو آرایه‌ی موقت
+    int i = 0;
+    int j = 0;
+
+    // اندیس محل قرارگیری عناصر ادغام‌شده در آرایه‌ی اصلی
+    int k = left;
+
+    // مقایسه‌ی عناصر دو نیمه و قرار دادن مقدار کوچک‌تر در آرایه‌ی اصلی
+    while (i < n1 && j < n2) {
+
+        if (leftArray[i] <= rightArray[j]) {
+            array[k] = leftArray[i];
+            ++i;
+        }
+        else {
+            array[k] = rightArray[j];
+            ++j;
+        }
+
+        // رفتن به خانه‌ی بعدی آرایه‌ی اصلی
+        ++k;
+    }
+
+    // اگر از نیمه‌ی چپ عنصری باقی مانده باشد، آن را کپی می‌کنیم
+    while (i < n1) {
+        array[k] = leftArray[i];
+
+        ++i;
+        ++k;
+    }
+
+    // اگر از نیمه‌ی راست عنصری باقی مانده باشد، آن را کپی می‌کنیم
+    while (j < n2) {
+        array[k] = rightArray[j];
+
+        ++j;
+        ++k;
+    }
+}
+
+
+// تابع بازگشتی Merge Sort
+void mergeSort(int array[], int left, int right) {
+
+    // اگر left از right کوچک‌تر باشد، هنوز بیش از یک عنصر داریم
+    if (left < right) {
+
+        // محاسبه‌ی نقطه‌ی میانی برای تقسیم آرایه
+        int middle = left + (right - left) / 2;
+
+        // مرتب‌سازی بازگشتی نیمه‌ی چپ
+        mergeSort(array, left, middle);
+
+        // مرتب‌سازی بازگشتی نیمه‌ی راست
+        mergeSort(array, middle + 1, right);
+
+        // ادغام دو نیمه‌ی مرتب‌شده
+        merge(array, left, middle, right);
+    }
+}
+
+
+// تابع نمایش عناصر آرایه
+void printArray(int array[], int size) {
+
+    for (int i = 0; i < size; ++i) {
+        printf("%d ", array[i]);
+    }
+
+    printf("\n");
+}
+
+
+// تابع اصلی برنامه
+int main(void) {
+
+    // تعریف آرایه‌ی اولیه
+    int array[] = {38, 27, 43, 3, 9, 82, 10};
+
+    // محاسبه‌ی تعداد عناصر آرایه
+    int size = sizeof(array) / sizeof(array[0]);
+
+    // نمایش آرایه قبل از مرتب‌سازی
+    printf("Original array:\n");
+    printArray(array, size);
+
+    // فراخوانی Merge Sort
+    // اندیس شروع 0 و اندیس پایان size - 1 است
+    mergeSort(array, 0, size - 1);
+
+    // نمایش آرایه پس از مرتب‌سازی
+    printf("Sorted array:\n");
+    printArray(array, size);
+
+    return 0;
+} 
