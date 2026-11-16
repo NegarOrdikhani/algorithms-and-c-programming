@@ -1,0 +1,202 @@
+
+// fig06_17.c
+// عمليات مختلف روي آرايه دوبعدي (Two-Dimensional Arrays)
+
+#include <stdio.h>
+
+#define EXAMS 4  // تعداد امتحان‌هاي هر دانشجو
+
+// -------------------- تابع محاسبه کمترين نمره --------------------
+
+int minimum(const int grades[][EXAMS], size_t pupils, size_t tests)
+{
+    // فرض مي‌کنيم کمترين نمره ابتدا 100 است
+    int lowGrade = 100;
+
+    // حرکت بين رديف‌ها (دانشجويان)
+    for (size_t row = 0; row < pupils; ++row)
+    {
+        // حرکت بين ستون‌ها (امتحان‌ها)
+        for (size_t column = 0; column < tests; ++column)
+        {
+            // اگر نمره فعلي از کمترين نمره ثبت‌شده کمتر باشد
+            if (grades[row][column] < lowGrade)
+            {
+                // به‌روزرسانی کمترين نمره
+                lowGrade = grades[row][column];
+            }
+        }
+    }
+
+    // برگرداندن کمترين نمره پيدا شده
+    return lowGrade;
+}
+
+
+// -------------------- تابع محاسبه بيشترين نمره --------------------
+
+int maximum(const int grades[][EXAMS], size_t pupils, size_t tests)
+{
+    // فرض مي‌کنيم بيشترين نمره ابتدا صفر است
+    int highGrade = 0;
+
+    // حرکت بين تمام رديف‌ها
+    for (size_t row = 0; row < pupils; ++row)
+    {
+        // حرکت بين تمام ستون‌ها
+        for (size_t column = 0; column < tests; ++column)
+        {
+            // اگر نمره فعلي از بيشترين نمره ثبت‌شده بيشتر باشد
+            if (grades[row][column] > highGrade)
+            {
+                // به‌روزرسانی بيشترين نمره
+                highGrade = grades[row][column];
+            }
+        }
+    }
+
+    // برگرداندن بيشترين نمره پيدا شده
+    return highGrade;
+}
+
+
+// -------------------- تابع محاسبه ميانگين نمرات يک دانشجو --------------------
+
+double average(const int setOfGrades[], size_t tests)
+{
+    int total = 0; // متغير براي نگهداري مجموع نمرات
+
+    // جمع کردن نمرات يک دانشجو
+    for (size_t test = 0; test < tests; ++test)
+    {
+        total += setOfGrades[test];
+    }
+
+    // تبديل total به double براي جلوگيري از تقسيم صحيح
+    // سپس تقسيم مجموع نمرات بر تعداد امتحان‌ها
+    return (double)total / tests;
+}
+
+
+
+
+// fig06_18.c
+// Using variable-length arrays in C99
+
+#include <stdio.h>
+#include <stddef.h>
+
+// تعریف تابع برای نمایش آرایه یک‌بعدی
+void print1DArray(size_t size, int array[size]);
+
+// تعریف تابع برای نمایش آرایه دوبعدی با ابعاد متغیر
+void print2DArray(size_t rows, size_t cols, int array[rows][cols]);
+
+int main(void)
+{
+    // دریافت اندازه آرایه یک‌بعدی
+    int arraySize = 0;
+
+    printf("Enter size of a one-dimensional array: ");
+
+    if (scanf("%d", &arraySize) != 1 || arraySize <= 0) {
+        puts("Invalid array size.");
+        return 1;
+    }
+
+    // تعریف آرایه یک‌بعدی با طولی که کاربر در زمان اجرا مشخص می‌کند
+    int array[arraySize];
+
+    // دریافت تعداد سطرها و ستون‌های آرایه دوبعدی اول
+    int row1 = 0;
+    int col1 = 0;
+
+    printf("Enter number of rows and columns in a 2-D array: ");
+
+    if (scanf("%d %d", &row1, &col1) != 2 ||
+        row1 <= 0 || col1 <= 0) {
+        puts("Invalid array dimensions.");
+        return 1;
+    }
+
+    // تعریف آرایه دوبعدی اول با ابعاد متغیر
+    int array2D1[row1][col1];
+
+    // دریافت ابعاد آرایه دوبعدی دوم
+    int row2 = 0;
+    int col2 = 0;
+
+    printf("Enter number of rows and columns in another 2-D array: ");
+
+    if (scanf("%d %d", &row2, &col2) != 2 ||
+        row2 <= 0 || col2 <= 0) {
+        puts("Invalid array dimensions.");
+        return 1;
+    }
+
+    // تعریف آرایه دوبعدی دوم با ابعاد متغیر
+    int array2D2[row2][col2];
+
+    // بررسی اندازه حافظه اشغال‌شده توسط آرایه یک‌بعدی
+    // sizeof اندازه کل آرایه را بر حسب بایت برمی‌گرداند
+    printf("\nsizeof(array) yields array size of %zu bytes\n",
+           sizeof(array));
+
+    // مقداردهی عناصر آرایه یک‌بعدی
+    // هر عنصر برابر مربع اندیس خودش قرار می‌گیرد
+    for (size_t i = 0; i < (size_t)arraySize; ++i) {
+        array[i] = (int)(i * i);
+    }
+
+    // مقداردهی عناصر آرایه دوبعدی اول
+    // مقدار هر خانه برابر مجموع شماره سطر و ستون آن است
+    for (size_t i = 0; i < (size_t)row1; ++i) {
+        for (size_t j = 0; j < (size_t)col1; ++j) {
+            array2D1[i][j] = (int)(i + j);
+        }
+    }
+
+    // مقداردهی عناصر آرایه دوبعدی دوم
+    for (size_t i = 0; i < (size_t)row2; ++i) {
+        for (size_t j = 0; j < (size_t)col2; ++j) {
+            array2D2[i][j] = (int)(i + j);
+        }
+    }
+
+    // نمایش آرایه یک‌بعدی
+    puts("\nOne-dimensional array:");
+    print1DArray((size_t)arraySize, array);
+
+    // نمایش آرایه دوبعدی اول
+    puts("\nFirst two-dimensional array:");
+    print2DArray((size_t)row1, (size_t)col1, array2D1);
+
+    // نمایش آرایه دوبعدی دوم
+    puts("\nSecond two-dimensional array:");
+    print2DArray((size_t)row2, (size_t)col2, array2D2);
+
+    return 0;
+}
+
+// دریافت اندازه و آرایه یک‌بعدی و نمایش تمام عناصر آن
+void print1DArray(size_t size, int array[size])
+{
+    for (size_t i = 0; i < size; ++i) {
+        printf("array[%zu] = %d\n", i, array[i]);
+    }
+}
+
+// دریافت تعداد سطرها، ستون‌ها و آرایه دوبعدی و نمایش عناصر آن
+void print2DArray(size_t rows, size_t cols, int array[rows][cols])
+{
+    for (size_t i = 0; i < rows; ++i) {
+
+        // پیمایش تمام ستون‌های سطر فعلی
+        for (size_t j = 0; j < cols; ++j) {
+            printf("%5d", array[i][j]);
+        }
+
+        // رفتن به خط بعد پس از نمایش عناصر هر سطر
+        puts("");
+    }
+}
