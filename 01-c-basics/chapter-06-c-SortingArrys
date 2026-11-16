@@ -390,7 +390,6 @@ void bubbleSort(int a[])
 }
 
 
-// -------------------- تابع چاپ آرايه (Print Array) --------------------
 
 void printArray(const int a[])
 {
@@ -409,3 +408,4 @@ void printArray(const int a[])
 
     puts(""); // چاپ يک خط خالي در انتهاي آرايه
 }
+
