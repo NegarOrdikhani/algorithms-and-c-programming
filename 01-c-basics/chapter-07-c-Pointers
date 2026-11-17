@@ -1,0 +1,120 @@
+
+// fig07_01.c
+// Using the & and * pointer operators
+// بررسی عملگرهای آدرس و مقدار در اشاره‌گرها
+
+#include <stdio.h>
+
+int main(void)
+{
+    // تعریف متغیر صحیح با مقدار اولیه 7
+    int a = 7;
+
+    // تعریف اشاره‌گر به int و ذخیره آدرس متغیر a در آن
+    int *aPtr = &a;
+
+    // نمایش آدرس متغیر a و آدرسی که در اشاره‌گر ذخیره شده است
+    printf("Address of a is %p\n", (void *)&a);
+    printf("Value of aPtr is %p\n\n", (void *)aPtr);
+
+    // نمایش مقدار خود متغیر و مقدار موجود در آدرس اشاره‌گر
+    printf("Value of a is %d\n", a);
+    printf("Value of *aPtr is %d\n\n", *aPtr);
+
+    // بررسی رابطه معکوس عملگرهای & و *
+    printf("Showing that * and & are complements of each other\n");
+
+    // ابتدا مقدار اشاره‌گر را دریافت می‌کنیم و سپس آدرس آن را
+    // نتیجه معادل aPtr است
+    printf("&*aPtr = %p\n", (void *)&*aPtr);
+
+    // ابتدا آدرس اشاره‌گر را می‌گیریم و سپس به آن دسترسی پیدا می‌کنیم
+    // نتیجه معادل aPtr است
+    printf("*&aPtr = %p\n", (void *)*&aPtr);
+
+    return 0;
+}
+
+
+
+
+
+
+// fig07_02.c
+// Cube a variable using pass-by-value
+// محاسبه مکعب عدد با روش ارسال مقدار
+
+#include <stdio.h>
+
+// نمونه اولیه تابع
+// دریافت یک عدد صحیح و برگرداندن مکعب آن
+int cubeByValue(int n);
+
+int main(void)
+{
+    // تعریف و مقداردهی اولیه متغیر
+    int number = 5;
+
+    // نمایش مقدار اولیه متغیر
+    printf("The original value of number is %d", number);
+
+    // ارسال مقدار number به تابع
+    // تابع یک کپی از مقدار number دریافت می‌کند
+    // مقدار برگشتی تابع در number ذخیره می‌شود
+    number = cubeByValue(number);
+
+    // نمایش مقدار جدید متغیر
+    printf("\nThe new value of number is %d\n", number);
+
+    return 0;
+}
+
+// محاسبه مکعب عدد دریافتی
+int cubeByValue(int n)
+{
+    // محاسبه مکعب متغیر محلی n
+    // و بازگرداندن نتیجه به تابع فراخواننده
+    return n * n * n;
+}
+
+
+
+
+
+
+// fig07_03.c
+// Cube a variable using a pointer argument
+// محاسبه مکعب عدد با استفاده از اشاره‌گر
+
+#include <stdio.h>
+
+// نمونه اولیه تابع
+// دریافت آدرس یک متغیر صحیح
+void cubeByReference(int *nPtr);
+
+int main(void)
+{
+    // تعریف متغیر اصلی با مقدار اولیه 5
+    int number = 5;
+
+    // نمایش مقدار اولیه متغیر
+    printf("The original value of number is %d", number);
+
+    // ارسال آدرس متغیر number به تابع
+    // تابع با استفاده از اشاره‌گر می‌تواند مقدار اصلی را تغییر دهد
+    cubeByReference(&number);
+
+    // نمایش مقدار جدید متغیر اصلی
+    printf("\nThe new value of number is %d\n", number);
+
+    return 0;
+}
+
+// محاسبه مکعب مقدار موجود در آدرس دریافتی
+void cubeByReference(int *nPtr)
+{
+    // nPtr آدرس متغیر number را نگه می‌دارد
+    // *nPtr به مقدار اصلی متغیر دسترسی پیدا می‌کند
+    // نتیجه محاسبه مستقیماً در همان خانه حافظه ذخیره می‌شود
+    *nPtr = *nPtr * *nPtr * *nPtr;
+}
