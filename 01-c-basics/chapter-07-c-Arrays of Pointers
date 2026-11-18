@@ -1,0 +1,289 @@
+
+// fig07_16.c
+// بُر زدن و پخش کردن کارت‌های بازی (Card Shuffling and Dealing)
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+#define SUITS 4
+#define FACES 13
+#define CARDS 52
+
+// نمونه اولیه توابع
+void shuffle(int deck[][FACES]);
+void deal(int deck[][FACES], const char *face[], const char *suit[]);
+
+int main(void) {
+
+    // آرایه دوبعدی برای نگهداری کارت‌ها
+    // 4 سطر برای خال‌ها و 13 ستون برای شماره یا چهره کارت‌ها
+    // مقدار اولیه تمام خانه‌ها صفر است
+    int deck[SUITS][FACES] = {0};
+
+    // مقداردهی اولیه مولد اعداد تصادفی با زمان فعلی
+    srand((unsigned int) time(NULL));
+
+    // قرار دادن شماره کارت‌ها در خانه‌های تصادفی آرایه
+    shuffle(deck);
+
+    // آرایه‌ای از اشاره‌گرها به رشته‌های نام خال‌ها
+    const char *suit[SUITS] = {
+        "Hearts", "Diamonds", "Clubs", "Spades"
+    };
+
+    // آرایه‌ای از اشاره‌گرها به رشته‌های نام کارت‌ها
+    const char *face[FACES] = {
+        "Ace", "Deuce", "Three", "Four", "Five",
+        "Six", "Seven", "Eight", "Nine", "Ten",
+        "Jack", "Queen", "King"
+    };
+
+    // نمایش کارت‌ها
+    deal(deck, face, suit);
+
+    return 0;
+}
+
+
+// قرار دادن 52 کارت در خانه‌های تصادفی آرایه
+void shuffle(int deck[][FACES]) {
+
+    // هر کارت یک شماره یکتا از 1 تا 52 دارد
+    for (size_t card = 1; card <= CARDS; ++card) {
+
+        size_t row = 0;     // شماره سطر
+        size_t column = 0;  // شماره ستون
+
+        // انتخاب موقعیت تصادفی تا زمانی که خانه خالی پیدا شود
+        do {
+            row = (size_t) (rand() % SUITS);
+            column = (size_t) (rand() % FACES);
+
+        } while (deck[row][column] != 0);
+
+        // قرار دادن شماره کارت در خانه انتخاب‌شده
+        deck[row][column] = (int) card;
+    }
+}
+
+
+// نمایش کارت‌های آرایه
+void deal(int deck[][FACES], const char *face[], const char *suit[]) {
+
+    // پیمایش شماره کارت‌ها از 1 تا 52
+    for (size_t card = 1; card <= CARDS; ++card) {
+
+        // پیمایش سطرها؛ هر سطر نماینده یک خال است
+        for (size_t row = 0; row < SUITS; ++row) {
+
+            // پیمایش ستون‌ها؛ هر ستون نماینده یک چهره کارت است
+            for (size_t column = 0; column < FACES; ++column) {
+
+                // اگر شماره خانه برابر شماره کارت موردنظر بود
+                if (deck[row][column] == (int) card) {
+
+                    // نمایش نام کارت و خال آن
+                    // بعد از هر چهار کارت، خط جدید چاپ می‌شود
+                    printf("%5s of %-8s%c",
+                           face[column],
+                           suit[row],
+                           card % 4 == 0 ? '\n' : ' ');
+                }
+            }
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+// fig07_17.c
+// برنامه مرتب‌سازی چندمنظوره با استفاده از اشاره‌گر به تابع
+
+#include <stdio.h>
+
+#define SIZE 10
+
+// نمونه اولیه توابع
+void bubbleSort(int work[], size_t size, int (*compare)(int a, int b));
+void swap(int *element1Ptr, int *element2Ptr);
+
+int ascending(int a, int b);
+int descending(int a, int b);
+
+
+int main(void) {
+
+    // آرایه اولیه با ترتیب نامرتب
+    int a[SIZE] = {
+        2, 6, 4, 8, 10, 12, 89, 68, 45, 37
+    };
+
+    // دریافت نوع مرتب‌سازی از کاربر
+    printf("%s",
+           "Enter 1 to sort in ascending order,\n"
+           "Enter 2 to sort in descending order: ");
+
+    int order = 0;
+    scanf("%d", &order);
+
+    puts("\nData items in original order");
+
+    // نمایش آرایه قبل از مرتب‌سازی
+    for (size_t counter = 0; counter < SIZE; ++counter) {
+        printf("%5d", a[counter]);
+    }
+
+    // انتخاب تابع مقایسه بر اساس انتخاب کاربر
+    if (order == 1) {
+
+        // ارسال تابع ascending به تابع bubbleSort
+        bubbleSort(a, SIZE, ascending);
+
+        puts("\nData items in ascending order");
+    }
+    else {
+
+        // ارسال تابع descending به تابع bubbleSort
+        bubbleSort(a, SIZE, descending);
+
+        puts("\nData items in descending order");
+    }
+
+    // نمایش آرایه پس از مرتب‌سازی
+    for (size_t counter = 0; counter < SIZE; ++counter) {
+        printf("%5d", a[counter]);
+    }
+
+    puts("\n");
+
+    return 0;
+}
+
+
+// الگوریتم مرتب‌سازی حبابی با امکان انتخاب نوع مقایسه
+void bubbleSort(int work[], size_t size,
+                int (*compare)(int a, int b)) {
+
+    // کنترل تعداد دفعات عبور از آرایه
+    for (size_t pass = 1; pass < size; ++pass) {
+
+        // مقایسه عناصر مجاور آرایه
+        for (size_t count = 0; count < size - 1; ++count) {
+
+            // اجرای تابعی که آدرس آن در compare قرار دارد
+            // اگر نتیجه مقایسه غیرصفر باشد، دو عنصر جابه‌جا می‌شوند
+            if (compare(work[count], work[count + 1])) {
+
+                // ارسال آدرس دو عنصر برای جابه‌جایی مقدار آن‌ها
+                swap(&work[count], &work[count + 1]);
+            }
+        }
+    }
+}
+
+
+// جابه‌جایی مقادیر دو خانه از آرایه با استفاده از آدرس آن‌ها
+void swap(int *element1Ptr, int *element2Ptr) {
+
+    // نگهداری موقت مقدار خانه اول
+    int hold = *element1Ptr;
+
+    // انتقال مقدار خانه دوم به خانه اول
+    *element1Ptr = *element2Ptr;
+
+    // انتقال مقدار قبلی خانه اول به خانه دوم
+    *element2Ptr = hold;
+}
+
+
+// تعیین اینکه آیا دو عنصر برای ترتیب صعودی باید جابه‌جا شوند
+int ascending(int a, int b) {
+
+    // اگر عنصر دوم کوچک‌تر از عنصر اول باشد، جابه‌جایی لازم است
+    return b < a;
+}
+
+
+// تعیین اینکه آیا دو عنصر برای ترتیب نزولی باید جابه‌جا شوند
+int descending(int a, int b) {
+
+    // اگر عنصر دوم بزرگ‌تر از عنصر اول باشد، جابه‌جایی لازم است
+    return b > a;
+}
+
+
+
+
+
+
+ 
+// fig07_18.c
+// نمایش آرایه‌ای از اشاره‌گرها به توابع
+
+#include <stdio.h>
+
+// نمونه اولیه توابع
+void function1(int a);
+void function2(int b);
+void function3(int c);
+
+
+int main(void) {
+
+    // آرایه‌ای از سه اشاره‌گر به تابع
+    // هر تابع یک آرگومان int می‌گیرد و void برمی‌گرداند
+    void (*f[3])(int) = {
+        function1,
+        function2,
+        function3
+    };
+
+    // دریافت انتخاب کاربر
+    printf("%s", "Enter a number between 0 and 2, 3 to end: ");
+
+    int choice = 0;
+    scanf("%d", &choice);
+
+    // تا زمانی که انتخاب بین 0 و 2 باشد، اجرای برنامه ادامه دارد
+    while (choice >= 0 && choice < 3) {
+
+        // اجرای تابعی که در خانه choice آرایه قرار دارد
+        // مقدار choice نیز به‌عنوان آرگومان به تابع ارسال می‌شود
+        f[choice](choice);
+
+        // دریافت انتخاب بعدی
+        printf("%s", "Enter a number between 0 and 2, 3 to end: ");
+        scanf("%d", &choice);
+    }
+
+    puts("Program execution completed.");
+
+    return 0;
+}
+
+
+// تابع اول
+void function1(int a) {
+    printf("You entered %d so function1 was called\n\n", a);
+}
+
+
+// تابع دوم
+void function2(int b) {
+    printf("You entered %d so function2 was called\n\n", b);
+}
+
+
+// تابع سوم
+void function3(int c) {
+    printf("You entered %d so function3 was called\n\n", c);
+}
