@@ -1,0 +1,218 @@
+
+// fig07_11.c
+// مرتب‌سازی آرایه با الگوریتم Bubble Sort
+// استفاده از Pointer و ارسال آدرس عناصر برای جابه‌جایی
+
+#include <stdio.h>
+
+#define SIZE 10
+
+// نمونه اولیه توابع
+void bubbleSort(int * const array, size_t size);
+void swap(int *element1Ptr, int *element2Ptr);
+
+int main(void)
+{
+    // تعریف و مقداردهی اولیه آرایه
+    int a[SIZE] = {2, 6, 4, 8, 10, 12, 89, 68, 45, 37};
+
+    // نمایش آرایه قبل از مرتب‌سازی
+    puts("Data items in original order");
+
+    for (size_t i = 0; i < SIZE; ++i) {
+        printf("%4d", a[i]);
+    }
+
+    // ارسال آرایه به تابع مرتب‌سازی
+    // نام آرایه به اشاره‌گر به اولین عنصر تبدیل می‌شود
+    // تغییر عناصر در تابع روی آرایه اصلی اثر می‌گذارد
+    bubbleSort(a, SIZE);
+
+    // نمایش آرایه پس از مرتب‌سازی
+    puts("\nData items in ascending order");
+
+    for (size_t i = 0; i < SIZE; ++i) {
+        printf("%4d", a[i]);
+    }
+
+    puts("");
+
+    return 0;
+}
+
+// مرتب‌سازی آرایه با الگوریتم Bubble Sort
+void bubbleSort(int * const array, size_t size)
+{
+    // حلقه بیرونی: کنترل تعداد مراحل مرتب‌سازی (Pass)
+    for (size_t pass = 0; pass < size - 1; ++pass) {
+
+        // حلقه داخلی: مقایسه عناصر مجاور در هر مرحله
+        for (size_t j = 0; j < size - 1; ++j) {
+
+            // اگر عنصر فعلی از عنصر بعدی بزرگ‌تر باشد
+            // باید جای این دو عنصر عوض شود
+            if (array[j] > array[j + 1]) {
+
+                // ارسال آدرس دو عنصر به تابع swap
+                swap(&array[j], &array[j + 1]);
+            }
+        }
+    }
+}
+
+// جابه‌جایی مقادیر دو خانه حافظه
+// دو اشاره‌گر، آدرس دو عنصر را دریافت می‌کنند
+void swap(int *element1Ptr, int *element2Ptr)
+{
+    // نگهداری موقت مقدار عنصر اول
+    int hold = *element1Ptr;
+
+    // قرار دادن مقدار عنصر دوم در خانه اول
+    *element1Ptr = *element2Ptr;
+
+    // قرار دادن مقدار ذخیره‌شده در خانه دوم
+    *element2Ptr = hold;
+}
+
+
+
+
+
+
+
+
+
+
+// fig07_13.c
+// استفاده از عملگر sizeof برای محاسبه اندازه انواع داده
+
+#include <stdio.h>
+
+int main(void)
+{
+    // تعریف متغیرهایی از انواع مختلف داده
+    char c = 0;
+    short s = 0;
+    int i = 0;
+    long l = 0;
+    long long ll = 0;
+
+    float f = 0.0F;
+    double d = 0.0;
+    long double ld = 0.0;
+
+    // تعریف آرایه‌ای شامل 20 عنصر از نوع int
+    int array[20] = {0};
+
+    // تعریف اشاره‌گر و قرار دادن آدرس اولین عنصر آرایه در آن
+    int *ptr = array;
+
+    // نمایش اندازه متغیر char و نوع داده char
+    printf("    sizeof c = %2zu\t       sizeof(char) = %2zu\n",
+           sizeof c, sizeof(char));
+
+    // نمایش اندازه متغیر short و نوع داده short
+    printf("    sizeof s = %2zu\t      sizeof(short) = %2zu\n",
+           sizeof s, sizeof(short));
+
+    // نمایش اندازه متغیر int و نوع داده int
+    printf("    sizeof i = %2zu\t        sizeof(int) = %2zu\n",
+           sizeof i, sizeof(int));
+
+    // نمایش اندازه متغیر long و نوع داده long
+    printf("    sizeof l = %2zu\t       sizeof(long) = %2zu\n",
+           sizeof l, sizeof(long));
+
+    // نمایش اندازه متغیر long long و نوع داده آن
+    printf("   sizeof ll = %2zu\t  sizeof(long long) = %2zu\n",
+           sizeof ll, sizeof(long long));
+
+    // نمایش اندازه متغیر float و نوع داده float
+    printf("    sizeof f = %2zu\t      sizeof(float) = %2zu\n",
+           sizeof f, sizeof(float));
+
+    // نمایش اندازه متغیر double و نوع داده double
+    printf("    sizeof d = %2zu\t     sizeof(double) = %2zu\n",
+           sizeof d, sizeof(double));
+
+    // نمایش اندازه متغیر long double و نوع داده آن
+    printf("   sizeof ld = %2zu\t sizeof(long double) = %2zu\n",
+           sizeof ld, sizeof(long double));
+
+    // نمایش اندازه کل آرایه بر حسب بایت
+    // sizeof(array) اندازه تمام 20 عنصر را محاسبه می‌کند
+    printf("sizeof array = %2zu\n", sizeof array);
+
+    // نمایش اندازه اشاره‌گر
+    // این مقدار اندازه آدرس ذخیره‌شده است، نه اندازه آرایه
+    printf("sizeof ptr = %2zu\n", sizeof ptr);
+
+    return 0;
+}
+
+
+
+
+
+
+
+// fig07_14.c
+// استفاده از روش‌های مختلف دسترسی به عناصر آرایه
+// با استفاده از Array Notation و Pointer Notation
+
+#include <stdio.h>
+
+#define ARRAY_SIZE 4
+
+int main(void)
+{
+    // تعریف آرایه و مقداردهی اولیه عناصر آن
+    int b[] = {10, 20, 30, 40};
+
+    // تعریف اشاره‌گر و قرار دادن آدرس اولین عنصر آرایه در آن
+    int *bPtr = b;
+
+    // روش اول: استفاده از Array Subscript Notation
+    // دسترسی مستقیم به عناصر آرایه با استفاده از اندیس
+    puts("Array b printed with:\nArray subscript notation");
+
+    for (size_t i = 0; i < ARRAY_SIZE; ++i) {
+
+        // نمایش اندیس و مقدار عنصر آرایه
+        printf("b[%zu] = %d\n", i, b[i]);
+    }
+
+    // روش دوم: استفاده از Pointer/Offset Notation
+    // استفاده از نام آرایه به عنوان آدرس اولین عنصر
+    puts("\nPointer/offset notation where the pointer is the array name");
+
+    for (size_t offset = 0; offset < ARRAY_SIZE; ++offset) {
+
+        // با اضافه کردن offset به آدرس آرایه به عنصر موردنظر می‌رسیم
+        // عملگر * مقدار موجود در آن آدرس را برمی‌گرداند
+        printf("*(b + %zu) = %d\n", offset, *(b + offset));
+    }
+
+    // روش سوم: استفاده از Pointer Subscript Notation
+    // دسترسی به عناصر آرایه از طریق اشاره‌گر bPtr
+    puts("\nPointer subscript notation");
+
+    for (size_t i = 0; i < ARRAY_SIZE; ++i) {
+
+        // استفاده از اشاره‌گر مانند یک آرایه
+        printf("bPtr[%zu] = %d\n", i, bPtr[i]);
+    }
+
+    // روش چهارم: استفاده از Pointer/Offset Notation
+    // استفاده از اشاره‌گر و جابه‌جایی بین عناصر آرایه
+    puts("\nPointer/offset notation");
+
+    for (size_t offset = 0; offset < ARRAY_SIZE; ++offset) {
+
+        // حرکت به عنصر موردنظر و خواندن مقدار آن
+        printf("*(bPtr + %zu) = %d\n",
+               offset, *(bPtr + offset));
+    }
+
+    return 0;
+}
